@@ -11,15 +11,18 @@ This document contains scenario-based interview questions for L3 OpenShift admin
 **What would you investigate?**
 
 **Expected Answer:**
-1. Check AWS service limits and quotas
-2. Verify IAM permissions for the installer
-3. Examine VPC/subnet configuration and security groups
-4. Check CloudTrail logs for API failures
-5. Validate install-config.yaml parameters
-6. Review bootstrap ignition config
-7. Check network connectivity between bootstrap and masters
+1. **Check AWS service limits and quotas**: Use AWS console or CLI to verify EC2 instance limits, VPC/subnet quotas, and ELB limits. OpenShift requires specific instance types and counts.
+2. **Verify IAM permissions**: Ensure the installer has permissions for EC2, VPC, IAM, Route53, ELB, and S3 services. Check CloudTrail for denied API calls.
+3. **Examine VPC/subnet configuration**: Validate CIDR blocks, route tables, internet gateways, and NAT gateways. Ensure subnets are in different availability zones.
+4. **Check CloudTrail logs**: Review AWS CloudTrail for API errors, permission issues, or resource creation failures during bootstrap.
+5. **Validate install-config.yaml**: Verify baseDomain, platform.aws.region, pullSecret, and SSH key. Check for typos in resource names.
+6. **Review bootstrap ignition config**: Examine bootstrap.ign for correct API endpoints, certificates, and etcd configuration.
+7. **Check network connectivity**: Test DNS resolution, security group rules, and routing between bootstrap and master nodes.
 
 **Follow-up:** How would you recover from this situation?
+- **Immediate recovery**: Delete failed resources, fix configuration, re-run installer
+- **Alternative approach**: Use UPI method with manual infrastructure provisioning
+- **Prevention**: Implement pre-flight checks and use staging environment for testing
 
 ### Question 2: Disconnected Environment Setup
 
@@ -28,15 +31,19 @@ This document contains scenario-based interview questions for L3 OpenShift admin
 **What steps would you take to troubleshoot and resolve?**
 
 **Expected Answer:**
-1. Verify mirror registry connectivity and certificates
-2. Check image mirroring process for completeness
-3. Validate CatalogSource configurations
-4. Ensure Operator Lifecycle Manager (OLM) can access mirrored content
-5. Check cluster's additionalTrustBundle configuration
-6. Validate imageContentSources in install-config.yaml
-7. Test operator installation with custom catalog sources
+1. **Verify mirror registry connectivity**: Test HTTPS connectivity from cluster nodes to mirror registry. Check firewall rules and DNS resolution.
+2. **Check image mirroring process**: Ensure all required images are mirrored including core OpenShift images, operators, and samples. Use `oc adm catalog mirror` with proper flags.
+3. **Validate CatalogSource configurations**: Check that CatalogSources point to the correct mirrored registry URLs and use the right image references.
+4. **Ensure OLM access**: Verify Operator Lifecycle Manager can pull index images and operator bundles from the mirrored registry.
+5. **Check cluster's additionalTrustBundle**: Ensure the mirror registry's CA certificate is added to the cluster's trusted certificates.
+6. **Validate imageContentSources**: Confirm install-config.yaml has correct imageContentSources with mirrors and source mappings.
+7. **Test operator installation**: Attempt manual operator installation and check for image pull errors or authentication issues.
 
 **Follow-up:** How would you automate the mirroring process for future updates?
+- **Create mirroring scripts**: Develop automated scripts using `oc adm release mirror` and `oc adm catalog mirror`
+- **Set up scheduled jobs**: Use cron jobs or CI/CD pipelines to regularly update mirrored content
+- **Implement monitoring**: Monitor mirror registry storage and sync status
+- **Version control**: Keep track of mirrored image versions and update procedures
 
 ### Question 3: Agent-Based Installation Network Issues
 
@@ -64,16 +71,21 @@ This document contains scenario-based interview questions for L3 OpenShift admin
 **How would you diagnose and resolve this?**
 
 **Expected Answer:**
-1. Check cluster resource usage with `oc adm top nodes` and `oc adm top pods`
-2. Review cluster operators status: `oc get clusteroperators`
-3. Check etcd performance and database size
-4. Analyze network plugin performance
-5. Review node conditions and taints
-6. Check for resource quotas and limits violations
-7. Monitor Prometheus metrics for bottlenecks
-8. Review recent changes and deployments
+1. **Check cluster resource usage**: Use `oc adm top nodes` to see CPU/memory usage across nodes, and `oc adm top pods` for pod-level metrics. Look for nodes at 100% utilization.
+2. **Review cluster operators status**: Run `oc get clusteroperators` to check for degraded operators. Look for operators in "Degraded" or "Progressing" state.
+3. **Check etcd performance**: Monitor etcd metrics for high latency or frequent leader elections. Check database size with `etcdctl endpoint status`.
+4. **Analyze network plugin performance**: Review SDN pod logs and check for network congestion. Use `oc get network` to verify network operator status.
+5. **Review node conditions and taints**: Check `oc describe node` for conditions like "MemoryPressure" or "DiskPressure". Verify taints aren't preventing scheduling.
+6. **Check for resource quotas and limits violations**: Review namespace resource quotas and pod limit ranges. Check for pods hitting limits.
+7. **Monitor Prometheus metrics**: Query Prometheus for detailed metrics on CPU, memory, disk I/O, and network usage patterns.
+8. **Review recent changes**: Check deployment history, config changes, and application updates that might have caused the degradation.
 
 **Follow-up:** What preventive measures would you implement?
+- **Implement resource monitoring**: Set up alerts for resource usage thresholds
+- **Configure HPA/VPA**: Use Horizontal/Vertical Pod Autoscalers for dynamic scaling
+- **Set resource limits**: Define appropriate requests and limits for all workloads
+- **Implement pod disruption budgets**: Prevent excessive pod evictions during maintenance
+- **Regular performance reviews**: Schedule periodic performance assessments
 
 ### Question 5: Certificate Expiration Crisis
 

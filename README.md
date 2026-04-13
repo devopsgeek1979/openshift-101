@@ -95,6 +95,18 @@ This repository includes comprehensive interview questions and scenarios for L3 
 
 - [L3 Interview Questions](openshift-l3-interview-questions.md): 20 scenario-based questions covering installation, administration, troubleshooting, and advanced topics
 
+## Infrastructure Automation
+
+This repository includes automation guides for deploying OpenShift using Infrastructure as Code tools:
+
+### Ansible Automation
+
+- [OpenShift Installation with Ansible](openshift-ansible-installation.md): Comprehensive guide for automating OpenShift deployment using Ansible playbooks, including disconnected installations and multi-cluster management
+
+### Terraform Infrastructure
+
+- [OpenShift Installation with Terraform](openshift-terraform-installation.md): Infrastructure as Code guide for deploying OpenShift on AWS and Azure using Terraform, including ROSA and ARO managed services
+
 ## Contributing
 
 1. Fork the repo
