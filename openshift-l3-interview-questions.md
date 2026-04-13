@@ -11,6 +11,7 @@ This document contains scenario-based interview questions for L3 OpenShift admin
 **What would you investigate?**
 
 **Expected Answer:**
+
 1. **Check AWS service limits and quotas**: Use AWS console or CLI to verify EC2 instance limits, VPC/subnet quotas, and ELB limits. OpenShift requires specific instance types and counts.
 2. **Verify IAM permissions**: Ensure the installer has permissions for EC2, VPC, IAM, Route53, ELB, and S3 services. Check CloudTrail for denied API calls.
 3. **Examine VPC/subnet configuration**: Validate CIDR blocks, route tables, internet gateways, and NAT gateways. Ensure subnets are in different availability zones.
@@ -20,6 +21,7 @@ This document contains scenario-based interview questions for L3 OpenShift admin
 7. **Check network connectivity**: Test DNS resolution, security group rules, and routing between bootstrap and master nodes.
 
 **Follow-up:** How would you recover from this situation?
+
 - **Immediate recovery**: Delete failed resources, fix configuration, re-run installer
 - **Alternative approach**: Use UPI method with manual infrastructure provisioning
 - **Prevention**: Implement pre-flight checks and use staging environment for testing
@@ -326,6 +328,193 @@ This document contains scenario-based interview questions for L3 OpenShift admin
 8. Check for memory leaks or GC issues
 
 **Follow-up:** How would you implement auto-scaling for this application?
+
+## GitOps and ArgoCD Scenarios
+
+### Question 21: ArgoCD Application Sync Failure
+
+**Scenario:** An ArgoCD application shows "OutOfSync" status and won't sync despite healthy target cluster. The application manages a critical production service.
+
+**How would you troubleshoot this ArgoCD sync issue?**
+
+**Expected Answer:**
+
+1. Check ArgoCD application status: `argocd app get <app-name>`
+2. Review sync operation logs: `argocd app logs <app-name>`
+3. Validate target cluster connectivity and permissions
+4. Check for resource conflicts or validation errors
+5. Review application manifest for syntax errors
+6. Check ArgoCD server and repo server logs
+7. Verify Git repository accessibility
+8. Check for manual interventions or locks
+
+**Follow-up:** How would you prevent sync failures in production?
+
+### Question 22: GitOps Repository Structure
+
+**Scenario:** Your team needs to implement GitOps for 50+ applications across multiple clusters. Each application has different environments (dev, staging, prod) and teams have varying access requirements.
+
+**How would you design the Git repository structure and access controls?**
+
+**Expected Answer:**
+1. Implement multi-repository approach (one repo per application)
+2. Use ApplicationSets for multi-environment management
+3. Configure RBAC for team-based access control
+4. Implement branch protection and review processes
+5. Use Kustomize or Helm for environment-specific overlays
+6. Set up automated testing and validation
+7. Implement secret management strategy
+8. Design notification and alerting for changes
+
+**Follow-up:** What tools would you use for GitOps at scale?
+
+### Question 23: ArgoCD Security Best Practices
+
+**Scenario:** After implementing ArgoCD, security audit reveals several vulnerabilities including overly permissive RBAC and exposed secrets in Git repositories.
+
+**What security improvements would you implement?**
+
+**Expected Answer:**
+1. Implement least-privilege RBAC policies
+2. Use ArgoCD's built-in secret management or external secret stores
+3. Enable audit logging and monitoring
+4. Implement network policies for ArgoCD components
+5. Use private Git repositories with SSH keys
+6. Implement image scanning and signing
+7. Set up compliance checks and automated remediation
+8. Regular security assessments and updates
+
+**Follow-up:** How would you handle secrets in GitOps?
+
+## Blue-Green Deployment Scenarios
+
+### Question 24: Blue-Green Traffic Switching Issues
+
+**Scenario:** During a blue-green deployment, traffic switching to the green environment causes 50% of requests to fail with "connection refused" errors. The green environment appears healthy when tested directly.
+
+**What would be your troubleshooting approach?**
+
+**Expected Answer:**
+1. Check route/service configuration after switch
+2. Verify pod readiness and health checks
+3. Review network policies between environments
+4. Check service mesh configuration (Istio)
+5. Monitor application logs during traffic switch
+6. Validate database connections and migrations
+7. Check for resource constraints in green environment
+8. Review load balancer and ingress configurations
+
+**Follow-up:** How would you implement safer traffic switching?
+
+### Question 25: Blue-Green Database Migration
+
+**Scenario:** A blue-green deployment requires database schema changes. The green environment needs a new table that doesn't exist in the current production database.
+
+**How would you handle database migrations in blue-green deployments?**
+
+**Expected Answer:**
+1. Implement backward-compatible schema changes
+2. Use database migration tools (Flyway, Liquibase)
+3. Create database migration jobs in green environment
+4. Implement dual-write strategy during transition
+5. Use feature flags to control new functionality
+6. Plan rollback procedures for failed migrations
+7. Test migration scripts in staging environment
+8. Monitor database performance during migration
+
+**Follow-up:** What strategies would you use for zero-downtime database changes?
+
+### Question 26: Blue-Green Rollback Strategy
+
+**Scenario:** After switching traffic to green environment, critical business metrics drop by 30%. You need to rollback to blue environment within 5 minutes.
+
+**What's your automated rollback procedure?**
+
+**Expected Answer:**
+1. Implement automated health checks and monitoring
+2. Set up automated rollback triggers based on metrics
+3. Pre-configure rollback scripts and pipelines
+4. Use feature flags for instant functionality disable
+5. Implement circuit breakers for problematic services
+6. Prepare database rollback procedures
+7. Test rollback procedures regularly
+8. Document rollback time objectives
+
+**Follow-up:** How would you prevent the need for rollbacks?
+
+### Question 27: Blue-Green with Microservices
+
+**Scenario:** You need to implement blue-green deployment for a complex microservices architecture with 20+ services that communicate with each other.
+
+**How would you coordinate the deployment across all services?**
+
+**Expected Answer:**
+1. Implement service mesh for traffic management
+2. Use ArgoCD ApplicationSets for coordinated deployments
+3. Implement canary deployment within blue-green
+4. Use service discovery and registration
+5. Implement circuit breakers and timeouts
+6. Coordinate database migrations across services
+7. Use distributed tracing for monitoring
+8. Implement automated testing between services
+
+**Follow-up:** What challenges would you anticipate with microservices blue-green?
+
+## Advanced Deployment Scenarios
+
+### Question 28: GitOps with Multi-Cluster Management
+
+**Scenario:** Your organization manages 15 OpenShift clusters across different regions and cloud providers. You need to deploy a security patch to all clusters simultaneously.
+
+**How would you implement this using GitOps?**
+
+**Expected Answer:**
+1. Use ArgoCD ApplicationSets for multi-cluster deployments
+2. Implement cluster-specific configurations
+3. Use GitOps for cluster configuration management
+4. Implement staged rollouts (dev -> staging -> prod)
+5. Set up centralized monitoring and alerting
+6. Use cluster API for infrastructure management
+7. Implement automated testing across clusters
+8. Set up compliance and audit logging
+
+**Follow-up:** How would you handle cluster-specific customizations?
+
+### Question 29: ArgoCD Performance at Scale
+
+**Scenario:** ArgoCD manages 500+ applications across multiple clusters. Sync operations are slow, and the ArgoCD UI becomes unresponsive during peak hours.
+
+**What performance optimizations would you implement?**
+
+**Expected Answer:**
+1. Scale ArgoCD components horizontally
+2. Implement application sharding
+3. Optimize repository server performance
+4. Use application caching and indexing
+5. Implement parallel sync operations
+6. Review and optimize RBAC policies
+7. Monitor ArgoCD metrics and set up alerts
+8. Implement resource limits and QoS
+
+**Follow-up:** How would you monitor ArgoCD performance?
+
+### Question 30: Blue-Green with State Management
+
+**Scenario:** A stateful application with persistent volumes needs blue-green deployment. The application maintains session state and has active user connections.
+
+**How would you handle state during blue-green deployments?**
+
+**Expected Answer:**
+1. Implement stateless application design where possible
+2. Use shared storage for both environments
+3. Implement session replication or external session store
+4. Use database for state persistence
+5. Implement graceful shutdown procedures
+6. Use sticky sessions during transition
+7. Implement state migration scripts
+8. Monitor state consistency during switch
+
+**Follow-up:** What alternatives to blue-green would you consider for stateful applications?
 
 ## Final Assessment Questions
 

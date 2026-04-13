@@ -93,7 +93,7 @@ This repository also includes comprehensive guides for OpenShift Container Platf
 
 This repository includes comprehensive interview questions and scenarios for L3 OpenShift administrators:
 
-- [L3 Interview Questions](openshift-l3-interview-questions.md): 20 scenario-based questions covering installation, administration, troubleshooting, and advanced topics
+- [L3 Interview Questions](openshift-l3-interview-questions.md): 30 scenario-based questions covering installation, administration, troubleshooting, GitOps, ArgoCD, and blue-green deployments
 
 ## Infrastructure Automation
 
@@ -106,6 +106,18 @@ This repository includes automation guides for deploying OpenShift using Infrast
 ### Terraform Infrastructure
 
 - [OpenShift Installation with Terraform](openshift-terraform-installation.md): Infrastructure as Code guide for deploying OpenShift on AWS and Azure using Terraform, including ROSA and ARO managed services
+
+## GitOps and Advanced Deployments
+
+This repository includes comprehensive guides for GitOps practices and advanced deployment strategies:
+
+### GitOps with ArgoCD
+
+- [OpenShift GitOps with ArgoCD](openshift-gitops-argocd.md): Complete guide for implementing GitOps on OpenShift using ArgoCD, including application deployment, security, and CI/CD integration
+
+### Blue-Green Deployments
+
+- [OpenShift Blue-Green Deployment Strategies](openshift-blue-green-deployment.md): Comprehensive guide for implementing blue-green deployments on OpenShift, including manual and automated approaches, service mesh integration, and rollback strategies
 
 ## Contributing
 
