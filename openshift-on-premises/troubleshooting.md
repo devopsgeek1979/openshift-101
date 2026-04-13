@@ -1,15 +1,15 @@
-# OpenShift On-Premises Troubleshooting Guide
+# ✨ OpenShift On-Premises Troubleshooting Guide
 
 This guide helps troubleshoot common issues in OpenShift Container Platform on-premises deployments.
 
-## Cluster Not Starting
+## 🔹 Cluster Not Starting
 
-### Cluster Not Starting Symptoms
+### 📌 Cluster Not Starting Symptoms
 
 - Nodes not joining the cluster
 - API server unreachable
 
-### Cluster Not Starting Steps
+### 📌 Cluster Not Starting Steps
 
 1. Check node status:
 
@@ -31,13 +31,13 @@ This guide helps troubleshoot common issues in OpenShift Container Platform on-p
    oc get secrets -n openshift-kube-apiserver
    ```
 
-## Pod Failures
+## 🔹 Pod Failures
 
-### Pod Failure Symptoms
+### 📌 Pod Failure Symptoms
 
 - Pods in CrashLoopBackOff or Pending state
 
-### Pod Failure Steps
+### 📌 Pod Failure Steps
 
 1. Describe the pod:
 
@@ -59,14 +59,14 @@ This guide helps troubleshoot common issues in OpenShift Container Platform on-p
    oc get events -n <namespace>
    ```
 
-## Networking Issues
+## 🔹 Networking Issues
 
-### Networking Issue Symptoms
+### 📌 Networking Issue Symptoms
 
 - Services not accessible
 - Pod-to-pod communication failing
 
-### Networking Issue Steps
+### 📌 Networking Issue Steps
 
 1. Check network policies:
 
@@ -86,14 +86,14 @@ This guide helps troubleshoot common issues in OpenShift Container Platform on-p
    oc rsh <pod-name> curl <service-url>
    ```
 
-## Storage Problems
+## 🔹 Storage Problems
 
-### Storage Problem Symptoms
+### 📌 Storage Problem Symptoms
 
 - PVCs stuck in Pending
 - Pod mounting failures
 
-### Storage Problem Steps
+### 📌 Storage Problem Steps
 
 1. Check PVC status:
 
@@ -110,14 +110,14 @@ This guide helps troubleshoot common issues in OpenShift Container Platform on-p
 
 3. Check storage backend (NFS, Ceph, etc.) connectivity
 
-## Authentication Issues
+## 🔹 Authentication Issues
 
-### Authentication Issue Symptoms
+### 📌 Authentication Issue Symptoms
 
 - Unable to login
 - Permission denied errors
 
-### Authentication Issue Steps
+### 📌 Authentication Issue Steps
 
 1. Check OAuth status:
 
@@ -137,14 +137,14 @@ This guide helps troubleshoot common issues in OpenShift Container Platform on-p
    oc adm policy who-can <verb> <resource>
    ```
 
-## Performance Issues
+## 🔹 Performance Issues
 
-### Performance Issue Symptoms
+### 📌 Performance Issue Symptoms
 
 - High latency
 - Resource exhaustion
 
-### Performance Issue Steps
+### 📌 Performance Issue Steps
 
 1. Monitor resource usage:
 
@@ -161,14 +161,14 @@ This guide helps troubleshoot common issues in OpenShift Container Platform on-p
 
 3. Analyze metrics with Prometheus/Grafana
 
-## Upgrade Failures
+## 🔹 Upgrade Failures
 
-### Upgrade Failure Symptoms
+### 📌 Upgrade Failure Symptoms
 
 - Upgrade stuck
 - Components not updating
 
-### Upgrade Failure Steps
+### 📌 Upgrade Failure Steps
 
 1. Check upgrade status:
 
@@ -188,13 +188,13 @@ This guide helps troubleshoot common issues in OpenShift Container Platform on-p
    oc adm upgrade --force
    ```
 
-## Common Logs to Check
+## 🔹 Common Logs to Check
 
 - Master logs: `/var/log/openshift-apiserver/`
 - Node logs: `journalctl -u kubelet`
 - ETCD logs: `oc logs -n openshift-etcd <etcd-pod>`
 
-## Getting Help
+## 🔹 Getting Help
 
 - Red Hat Support: Create a support case
 - Community: OpenShift forums, Stack Overflow

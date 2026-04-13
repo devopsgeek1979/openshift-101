@@ -1,8 +1,8 @@
-# OpenShift Installation with Terraform
+# ✨ OpenShift Installation with Terraform
 
 Terraform enables Infrastructure as Code (IaC) for provisioning OpenShift Container Platform on cloud platforms like AWS and Azure. This guide covers using Terraform modules for automated OpenShift deployment.
 
-## Prerequisites
+## 🔹 Prerequisites
 
 - Terraform 1.0+
 - AWS CLI or Azure CLI configured
@@ -10,9 +10,9 @@ Terraform enables Infrastructure as Code (IaC) for provisioning OpenShift Contai
 - SSH key pair
 - Cloud provider account with appropriate permissions
 
-## AWS Installation
+## 🔹 AWS Installation
 
-### Method 1: Using Terraform AWS Provider
+### 📌 Method 1: Using Terraform AWS Provider
 
 1. **Initialize Terraform project:**
 
@@ -297,7 +297,7 @@ Terraform enables Infrastructure as Code (IaC) for provisioning OpenShift Contai
    terraform apply
    ```
 
-### Method 2: OpenShift on AWS with ROSA
+### 📌 Method 2: OpenShift on AWS with ROSA
 
 For Red Hat OpenShift Service on AWS (ROSA):
 
@@ -360,9 +360,9 @@ resource "awscc_rosa_cluster" "example" {
 }
 ```
 
-## Azure Installation
+## 🔹 Azure Installation
 
-### Method 1: OpenShift on Azure IaaS
+### 📌 Method 1: OpenShift on Azure IaaS
 
 1. **Create main.tf for Azure:**
 
@@ -618,7 +618,7 @@ resource "awscc_rosa_cluster" "example" {
    }
    ```
 
-### Method 2: Azure Red Hat OpenShift (ARO)
+### 📌 Method 2: Azure Red Hat OpenShift (ARO)
 
 For managed OpenShift service on Azure:
 
@@ -667,9 +667,9 @@ resource "azurerm_redhat_openshift_cluster" "example" {
 }
 ```
 
-## Advanced Terraform Configurations
+## 🔹 Advanced Terraform Configurations
 
-### Remote State Management
+### 📌 Remote State Management
 
 ```hcl
 terraform {
@@ -691,7 +691,7 @@ terraform {
 }
 ```
 
-### Modules for Reusability
+### 📌 Modules for Reusability
 
 Create reusable modules:
 
@@ -712,7 +712,7 @@ module "openshift_cluster" {
 }
 ```
 
-### Multi-Environment Deployment
+### 📌 Multi-Environment Deployment
 
 ```hcl
 # Environment-specific variables
@@ -737,9 +737,9 @@ resource "aws_instance" "bastion" {
 }
 ```
 
-## Troubleshooting Terraform Deployments
+## 🔹 Troubleshooting Terraform Deployments
 
-### Common Issues
+### 📌 Common Issues
 
 1. **Provider authentication failures:**
    - Verify AWS credentials or Azure service principal
@@ -761,64 +761,68 @@ resource "aws_instance" "bastion" {
    - Check for running deployments
    - Implement proper locking mechanisms
 
-### Debugging Techniques
+### 📌 Debugging Techniques
 
 - **Enable debug logging:**
+
   ```bash
   export TF_LOG=DEBUG
   terraform apply
   ```
 
 - **Validate configuration:**
+
   ```bash
   terraform validate
   terraform plan
   ```
 
 - **Check resource state:**
+
   ```bash
   terraform state list
   terraform state show <resource>
   ```
 
 - **Refresh state:**
+
   ```bash
   terraform refresh
   ```
 
-## Best Practices
+## 🔹 Best Practices
 
-### State Management
+### 📌 State Management
 
 - Use remote state backends
 - Enable state locking
 - Regular state backups
 - Use workspaces for environments
 
-### Security
+### 📌 Security
 
 - Store sensitive data in vaults
 - Use least-privilege IAM roles
 - Encrypt state files
 - Regular credential rotation
 
-### Version Control
+### 📌 Version Control
 
 - Store Terraform code in Git
 - Use semantic versioning
 - Implement code reviews
 - Document changes
 
-### Cost Optimization
+### 📌 Cost Optimization
 
 - Use spot instances where appropriate
 - Implement auto-scaling
 - Regular resource cleanup
 - Monitor cloud costs
 
-## Integration with CI/CD
+## 🔹 Integration with CI/CD
 
-### GitHub Actions Example
+### 📌 GitHub Actions Example
 
 ```yaml
 name: 'Terraform'
@@ -848,7 +852,7 @@ jobs:
       run: terraform apply -auto-approve
 ```
 
-### Integration with OpenShift GitOps
+### 📌 Integration with OpenShift GitOps
 
 ```yaml
 # ArgoCD Application for Terraform
@@ -872,9 +876,9 @@ spec:
       selfHeal: true
 ```
 
-## Monitoring and Compliance
+## 🔹 Monitoring and Compliance
 
-### Cost Monitoring
+### 📌 Cost Monitoring
 
 ```hcl
 # AWS Cost Allocation Tags
@@ -899,7 +903,7 @@ resource "azurerm_monitor_metric_alert" "budget" {
 }
 ```
 
-### Compliance and Governance
+### 📌 Compliance and Governance
 
 - Implement resource tagging standards
 - Use policy-as-code tools (Open Policy Agent, AWS Config, Azure Policy)

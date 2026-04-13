@@ -1,15 +1,15 @@
-# OpenShift Agent-Based Installer
+# ✨ OpenShift Agent-Based Installer
 
 The Agent-based installer provides a streamlined installation experience for OpenShift Container Platform. It uses a bootable ISO image to install the cluster, making it suitable for disconnected environments and air-gapped installations.
 
-## Key Features
+## 🔹 Key Features
 
 - Single ISO image for all nodes
 - Supports disconnected installations
 - Simplified configuration
 - Integrated with Assisted Installer service
 
-## Prerequisites
+## 🔹 Prerequisites
 
 - RHEL 8.6 or later servers
 - Minimum 3 master nodes and 2 worker nodes
@@ -18,16 +18,16 @@ The Agent-based installer provides a streamlined installation experience for Ope
 - Network connectivity between nodes
 - DHCP server (optional, can use static IPs)
 
-## Installation Steps
+## 🔹 Installation Steps
 
-### 1. Download the Agent-Based Installer
+### 📌 1. Download the Agent-Based Installer
 
 ```bash
 wget https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-install-linux.tar.gz
 tar -xzf openshift-install-linux.tar.gz
 ```
 
-### 2. Create Agent Config
+### 📌 2. Create Agent Config
 
 Generate the agent-config.yaml:
 
@@ -94,7 +94,7 @@ hosts:
             dhcp: false
 ```
 
-### 3. Create PXE Assets (Optional)
+### 📌 3. Create PXE Assets (Optional)
 
 For PXE booting:
 
@@ -108,35 +108,35 @@ This generates:
 - initrd and kernel images
 - ignition configs
 
-### 4. Create ISO Image
+### 📌 4. Create ISO Image
 
 ```bash
 ./openshift-install agent create image --dir=.
 ```
 
-### 5. Boot Nodes
+### 📌 5. Boot Nodes
 
 - Boot each node with the generated ISO or PXE
 - The agent will automatically discover other nodes
 - Nodes will form the cluster without manual intervention
 
-### 6. Monitor Installation
+### 📌 6. Monitor Installation
 
 ```bash
 ./openshift-install agent wait-for bootstrap-complete --dir=.
 ./openshift-install agent wait-for install-complete --dir=.
 ```
 
-### 7. Access Cluster
+### 📌 7. Access Cluster
 
 ```bash
 export KUBECONFIG=auth/kubeconfig
 oc login -u kubeadmin
 ```
 
-## Network Configuration
+## 🔹 Network Configuration
 
-### Static IP Configuration
+### 📌 Static IP Configuration
 
 Use NMState for advanced networking:
 
@@ -163,7 +163,7 @@ networkConfig:
         next-hop-interface: enp1s0
 ```
 
-### DHCP Configuration
+### 📌 DHCP Configuration
 
 For DHCP environments, minimal config:
 
@@ -178,7 +178,7 @@ networkConfig:
         dhcp: true
 ```
 
-## Disconnected Installation
+## 🔹 Disconnected Installation
 
 For air-gapped environments:
 
@@ -187,29 +187,29 @@ For air-gapped environments:
 3. Use local DNS and NTP servers
 4. Ensure all nodes can reach local registry
 
-## Troubleshooting
+## 🔹 Troubleshooting
 
-### Node Discovery Issues
+### 📌 Node Discovery Issues
 
 - Verify network connectivity between nodes
 - Check firewall rules
 - Ensure rendezvousIP is accessible
 
-### Installation Failures
+### 📌 Installation Failures
 
 - Check agent logs: `journalctl -u agent.service`
 - Verify hardware requirements
 - Validate network configuration
 
-### Bootstrap Issues
+### 📌 Bootstrap Issues
 
 - Check bootstrap logs
 - Verify ignition configs
 - Ensure proper DNS resolution
 
-## Failure Scenarios and Troubleshooting
+## 🔹 Failure Scenarios and Troubleshooting
 
-### Scenario 1: Nodes Not Discovered
+### 📌 Scenario 1: Nodes Not Discovered
 
 **Symptoms:**
 
@@ -250,7 +250,7 @@ For air-gapped environments:
 - Ensure all nodes can reach the bootstrap node
 - Check firewall rules
 
-### Scenario 2: Installation Hangs at Bootstrap
+### 📌 Scenario 2: Installation Hangs at Bootstrap
 
 **Symptoms:**
 
@@ -290,7 +290,7 @@ For air-gapped environments:
 - Check network stability
 - Regenerate agent config
 
-### Scenario 3: Certificate Issues
+### 📌 Scenario 3: Certificate Issues
 
 **Symptoms:**
 
@@ -329,7 +329,7 @@ For air-gapped environments:
 - Regenerate cluster certificates
 - Fix DNS configuration
 
-### Common Troubleshooting Questions
+### 📌 Common Troubleshooting Questions
 
 1. **Q: Agent service fails to start on nodes?**
    A: Check ignition config and ensure proper disk partitioning.
@@ -346,7 +346,7 @@ For air-gapped environments:
 5. **Q: PXE boot fails on some nodes?**
    A: Verify DHCP server configuration and PXE assets.
 
-## Best Practices for Agent-Based Troubleshooting
+## 🔹 Best Practices for Agent-Based Troubleshooting
 
 - Validate agent-config.yaml before booting nodes
 - Monitor agent logs on all nodes during installation

@@ -1,26 +1,26 @@
-# OpenShift Blue-Green Deployment Strategies
+# ✨ OpenShift Blue-Green Deployment Strategies
 
 Blue-Green deployment is a release strategy that reduces downtime and risk by running two identical production environments called Blue and Green. At any time, only one of the environments is live, serving all production traffic.
 
-## Core Concepts
+## 🔹 Core Concepts
 
-### Blue-Green vs Other Strategies
+### 📌 Blue-Green vs Other Strategies
 
 - **Blue-Green**: Two full environments, instant switch
 - **Canary**: Gradual rollout to subset of users
 - **Rolling**: Update instances incrementally
 - **A/B Testing**: Route traffic based on rules
 
-## Prerequisites
+## 🔹 Prerequisites
 
 - OpenShift 4.x cluster
 - ArgoCD or OpenShift GitOps (recommended)
 - Service Mesh (Istio) for advanced routing
 - Monitoring and observability stack
 
-## Basic Blue-Green Deployment
+## 🔹 Basic Blue-Green Deployment
 
-### Manual Implementation
+### 📌 Manual Implementation
 
 1. **Create namespaces:**
 
@@ -140,7 +140,7 @@ Blue-Green deployment is a release strategy that reduces downtime and risk by ru
        termination: edge
    ```
 
-### Deployment Process
+### 📌 Deployment Process
 
 1. **Deploy to Green:**
 
@@ -184,9 +184,9 @@ Blue-Green deployment is a release strategy that reduces downtime and risk by ru
    # oc delete namespace blue
    ```
 
-## Advanced Blue-Green with Service Mesh
+## 🔹 Advanced Blue-Green with Service Mesh
 
-### Istio Implementation
+### 📌 Istio Implementation
 
 1. **Install Service Mesh:**
 
@@ -270,9 +270,9 @@ Blue-Green deployment is a release strategy that reduces downtime and risk by ru
    EOF
    ```
 
-## Blue-Green with ArgoCD
+## 🔹 Blue-Green with ArgoCD
 
-### ArgoCD ApplicationSet
+### 📌 ArgoCD ApplicationSet
 
 ```yaml
 apiVersion: argoproj.io/v1alpha1
@@ -306,7 +306,7 @@ spec:
           selfHeal: true
 ```
 
-### Automated Blue-Green Pipeline
+### 📌 Automated Blue-Green Pipeline
 
 ```yaml
 # blue-green-pipeline.yaml
@@ -358,9 +358,9 @@ spec:
     - switch-traffic
 ```
 
-## Database Considerations
+## 🔹 Database Considerations
 
-### Database Migration Strategy
+### 📌 Database Migration Strategy
 
 1. **Backward Compatible Changes:**
 
@@ -406,9 +406,9 @@ spec:
      DB_SCHEMA: myapp_green
    ```
 
-## Monitoring and Observability
+## 🔹 Monitoring and Observability
 
-### Blue-Green Metrics
+### 📌 Blue-Green Metrics
 
 ```yaml
 apiVersion: monitoring.coreos.com/v1
@@ -439,7 +439,7 @@ spec:
         summary: "Blue-Green deployment has unavailable replicas"
 ```
 
-### Application Health Checks
+### 📌 Application Health Checks
 
 ```yaml
 apiVersion: route.openshift.io/v1
@@ -469,9 +469,9 @@ spec:
     targetPort: 8080
 ```
 
-## Rollback Strategy
+## 🔹 Rollback Strategy
 
-### Automated Rollback
+### 📌 Automated Rollback
 
 ```yaml
 apiVersion: tekton.dev/v1beta1
@@ -511,7 +511,7 @@ spec:
     - rollback-traffic
 ```
 
-### Manual Rollback
+### 📌 Manual Rollback
 
 ```bash
 # Quick rollback to blue
@@ -524,9 +524,9 @@ oc scale deployment myapp-blue -n blue --replicas=3
 oc scale deployment myapp-green -n green --replicas=0
 ```
 
-## Security Considerations
+## 🔹 Security Considerations
 
-### Network Policies
+### 📌 Network Policies
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -554,7 +554,7 @@ spec:
       port: 8080
 ```
 
-### RBAC for Blue-Green
+### 📌 RBAC for Blue-Green
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -585,9 +585,9 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 ```
 
-## Cost Optimization
+## 🔹 Cost Optimization
 
-### Resource Management
+### 📌 Resource Management
 
 ```yaml
 # Scale down inactive environment
@@ -611,7 +611,7 @@ spec:
             cpu: "500m"
 ```
 
-### Auto-scaling
+### 📌 Auto-scaling
 
 ```yaml
 apiVersion: autoscaling/v2
@@ -635,9 +635,9 @@ spec:
         averageUtilization: 70
 ```
 
-## Integration with CI/CD
+## 🔹 Integration with CI/CD
 
-### GitHub Actions Blue-Green
+### 📌 GitHub Actions Blue-Green
 
 ```yaml
 name: Blue-Green Deployment

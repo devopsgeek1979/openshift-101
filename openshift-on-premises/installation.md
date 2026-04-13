@@ -1,8 +1,8 @@
-# OpenShift On-Premises Installation Guide
+# ✨ OpenShift On-Premises Installation Guide
 
 This guide covers the installation of OpenShift Container Platform (OCP) on-premises.
 
-## Prerequisites
+## 🔹 Prerequisites
 
 - Red Hat Enterprise Linux (RHEL) 8.x or 9.x servers
 - Minimum hardware requirements:
@@ -11,16 +11,16 @@ This guide covers the installation of OpenShift Container Platform (OCP) on-prem
 - Red Hat subscription with OpenShift entitlements
 - DNS and load balancer configured
 
-## Installation Methods
+## 🔹 Installation Methods
 
-### 1. Assisted Installer (Recommended)
+### 📌 1. Assisted Installer (Recommended)
 
 1. Access the Red Hat Hybrid Cloud Console
 2. Create a new cluster
 3. Select "On-premises" as the platform
 4. Follow the guided steps for infrastructure provisioning
 
-### 2. User-Provisioned Infrastructure (UPI)
+### 📌 2. User-Provisioned Infrastructure (UPI)
 
 1. Prepare your infrastructure:
    - Provision VMs or bare metal servers
@@ -77,7 +77,7 @@ This guide covers the installation of OpenShift Container Platform (OCP) on-prem
    ./openshift-install wait-for install-complete --dir=.
    ```
 
-## Post-Installation
+## 🔹 Post-Installation
 
 1. Access the cluster:
 
@@ -95,7 +95,7 @@ This guide covers the installation of OpenShift Container Platform (OCP) on-prem
 
 3. Configure additional components (registry, monitoring, etc.)
 
-## Troubleshooting Installation Issues
+## 🔹 Troubleshooting Installation Issues
 
 - Check bootstrap logs: `oc logs -f bootstrap`
 - Verify network connectivity

@@ -1,10 +1,10 @@
-# OpenShift CI/CD Integration Guide
+# ✨ OpenShift CI/CD Integration Guide
 
 This guide covers integrating various CI/CD tools with OpenShift for automated deployments, GitOps workflows, and DevSecOps practices.
 
-## OpenShift Pipelines (Tekton)
+## 🔹 OpenShift Pipelines (Tekton)
 
-### Installation
+### 📌 Installation
 
 ```bash
 # Install OpenShift Pipelines Operator
@@ -22,7 +22,7 @@ spec:
 EOF
 ```
 
-### Basic Pipeline for Application Deployment
+### 📌 Basic Pipeline for Application Deployment
 
 ```yaml
 apiVersion: tekton.dev/v1beta1
@@ -74,9 +74,9 @@ spec:
       workspace: shared-workspace
 ```
 
-## Jenkins Integration
+## 🔹 Jenkins Integration
 
-### Jenkins on OpenShift
+### 📌 Jenkins on OpenShift
 
 ```yaml
 apiVersion: apps/v1
@@ -138,7 +138,7 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 ```
 
-### Jenkins Pipeline for Blue-Green Deployment
+### 📌 Jenkins Pipeline for Blue-Green Deployment
 
 ```groovy
 pipeline {
@@ -225,9 +225,9 @@ spec:
 }
 ```
 
-## GitHub Actions with OpenShift
+## 🔹 GitHub Actions with OpenShift
 
-### GitHub Actions Workflow
+### 📌 GitHub Actions Workflow
 
 ```yaml
 name: OpenShift CI/CD
@@ -265,9 +265,9 @@ jobs:
         oc run test-runner --image=myapp:latest --restart=Never --rm -i --tty -- oc test
 ```
 
-## ArgoCD Integration with CI/CD
+## 🔹 ArgoCD Integration with CI/CD
 
-### Automated Sync Triggers
+### 📌 Automated Sync Triggers
 
 ```yaml
 apiVersion: argoproj.io/v1alpha1
@@ -298,7 +298,7 @@ spec:
     - PrunePropagationPolicy=foreground
 ```
 
-### Webhook Configuration
+### 📌 Webhook Configuration
 
 ```yaml
 apiVersion: v1
@@ -326,9 +326,9 @@ spec:
     termination: reencrypt
 ```
 
-## DevSecOps Integration
+## 🔹 DevSecOps Integration
 
-### Security Scanning
+### 📌 Security Scanning
 
 ```yaml
 apiVersion: tekton.dev/v1beta1
@@ -373,7 +373,7 @@ spec:
         value: high
 ```
 
-### Compliance Checks
+### 📌 Compliance Checks
 
 ```yaml
 apiVersion: tekton.dev/v1beta1
@@ -397,9 +397,9 @@ spec:
       # Verify license compliance
 ```
 
-## Monitoring CI/CD Pipelines
+## 🔹 Monitoring CI/CD Pipelines
 
-### Prometheus Metrics
+### 📌 Prometheus Metrics
 
 ```yaml
 apiVersion: monitoring.coreos.com/v1
@@ -416,7 +416,7 @@ spec:
     interval: 30s
 ```
 
-### Dashboard Integration
+### 📌 Dashboard Integration
 
 ```yaml
 apiVersion: integreatly.org/v1alpha1
@@ -445,9 +445,9 @@ spec:
     }
 ```
 
-## Multi-Cluster CI/CD
+## 🔹 Multi-Cluster CI/CD
 
-### Cluster Synchronization
+### 📌 Cluster Synchronization
 
 ```yaml
 apiVersion: argoproj.io/v1alpha1

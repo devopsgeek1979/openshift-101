@@ -1,8 +1,8 @@
-# OpenShift Disconnected Installation
+# ✨ OpenShift Disconnected Installation
 
 Disconnected or air-gapped OpenShift installations are deployed in environments without internet access. This requires mirroring container images and operators to a local registry.
 
-## Prerequisites
+## 🔹 Prerequisites
 
 - Local container registry (e.g., Red Hat Quay, Artifactory)
 - Mirror registry host with sufficient storage
@@ -10,25 +10,25 @@ Disconnected or air-gapped OpenShift installations are deployed in environments 
 - Red Hat pull secret
 - Access to Red Hat network for initial setup
 
-## Architecture
+## 🔹 Architecture
 
-### Components
+### 📌 Components
 
 - **Mirror Registry**: Stores OpenShift and application images
 - **Mirror Host**: Server with internet access for downloading images
 - **Disconnected Cluster**: OpenShift cluster without internet access
 - **Bastion Host**: Optional jump host for management
 
-### Network Requirements
+### 📌 Network Requirements
 
 - Mirror registry accessible from cluster nodes
 - NTP synchronization
 - DNS resolution for internal services
 - Firewall rules for registry access
 
-## Installation Steps
+## 🔹 Installation Steps
 
-### Phase 1: Prepare Mirror Registry
+### 📌 Phase 1: Prepare Mirror Registry
 
 1. Set up mirror registry on a host with internet access:
 
@@ -44,7 +44,7 @@ Disconnected or air-gapped OpenShift installations are deployed in environments 
 
 2. Configure registry authentication (optional for disconnected)
 
-### Phase 2: Mirror OpenShift Images
+### 📌 Phase 2: Mirror OpenShift Images
 
 1. Download OpenShift release images:
 
@@ -78,7 +78,7 @@ Disconnected or air-gapped OpenShift installations are deployed in environments 
      --to-release-image=${LOCAL_REGISTRY}/ocp4/openshift4:4.12.0-x86_64
    ```
 
-### Phase 3: Create Installation Config
+### 📌 Phase 3: Create Installation Config
 
 1. Create install-config.yaml with local registry:
 
@@ -121,7 +121,7 @@ Disconnected or air-gapped OpenShift installations are deployed in environments 
 
 2. Add mirror registry certificate to additionalTrustBundle
 
-### Phase 4: Install Cluster
+### 📌 Phase 4: Install Cluster
 
 1. Generate ignition configs:
 
@@ -138,7 +138,7 @@ Disconnected or air-gapped OpenShift installations are deployed in environments 
    ./openshift-install wait-for install-complete --dir=.
    ```
 
-### Phase 5: Configure Cluster
+### 📌 Phase 5: Configure Cluster
 
 1. Disable default OperatorHub sources:
 
@@ -164,9 +164,9 @@ Disconnected or air-gapped OpenShift installations are deployed in environments 
    EOF
    ```
 
-## Operator Management
+## 🔹 Operator Management
 
-### Mirror Specific Operators
+### 📌 Mirror Specific Operators
 
 ```bash
 # Mirror an operator
@@ -177,7 +177,7 @@ oc adm catalog mirror \
   --index-filter-by-os='linux/amd64'
 ```
 
-### Install Operators
+### 📌 Install Operators
 
 ```bash
 # Create subscription
@@ -195,9 +195,9 @@ spec:
 EOF
 ```
 
-## Application Deployment
+## 🔹 Application Deployment
 
-### Mirror Application Images
+### 📌 Mirror Application Images
 
 ```bash
 # Mirror application images
@@ -207,7 +207,7 @@ oc image mirror \
   -a ${LOCAL_SECRET_JSON}
 ```
 
-### Update Image References
+### 📌 Update Image References
 
 Update deployments to use mirrored images:
 
@@ -224,60 +224,60 @@ spec:
         image: mirror.example.com:5000/my-app:latest
 ```
 
-## Maintenance
+## 🔹 Maintenance
 
-### Update Mirror Registry
+### 📌 Update Mirror Registry
 
 1. Pull latest images from Red Hat
 2. Mirror to local registry
 3. Update image references in cluster
 
-### Certificate Management
+### 📌 Certificate Management
 
 - Renew mirror registry certificates
 - Update additionalTrustBundle in cluster
 - Restart affected pods
 
-### Storage Management
+### 📌 Storage Management
 
 - Monitor registry storage usage
 - Clean up old images
 - Plan for storage expansion
 
-## Troubleshooting
+## 🔹 Troubleshooting
 
-### Image Pull Errors
+### 📌 Image Pull Errors
 
 - Verify mirror registry connectivity
 - Check image references
 - Validate certificates
 
-### Operator Installation Failures
+### 📌 Operator Installation Failures
 
 - Check catalog source status
 - Verify mirrored operator images
 - Review operator logs
 
-### Network Issues
+### 📌 Network Issues
 
 - Test connectivity to mirror registry
 - Check DNS resolution
 - Validate firewall rules
 
-### Certificate Issues
+### 📌 Certificate Issues
 
 - Update additionalTrustBundle
 - Restart affected services
 - Check certificate validity
 
-## Security Considerations
+## 🔹 Security Considerations
 
 - Secure mirror registry access
 - Use TLS certificates
 - Implement access controls
 - Regular security updates
 
-## Best Practices
+## 🔹 Best Practices
 
 - Plan storage requirements
 - Implement backup strategies

@@ -1,10 +1,10 @@
-# OpenShift On-Premises Administration Guide
+# ✨ OpenShift On-Premises Administration Guide
 
 This guide covers day-to-day administration tasks for OpenShift Container Platform on-premises.
 
-## Cluster Management
+## 🔹 Cluster Management
 
-### Node Management
+### 📌 Node Management
 
 - Add worker nodes:
 
@@ -24,7 +24,7 @@ This guide covers day-to-day administration tasks for OpenShift Container Platfo
   oc adm uncordon <node-name>
   ```
 
-### User and Authentication
+### 📌 User and Authentication
 
 - Create a user:
 
@@ -40,7 +40,7 @@ This guide covers day-to-day administration tasks for OpenShift Container Platfo
 
 - Configure identity providers (LDAP, etc.) via OAuth
 
-### Storage Management
+### 📌 Storage Management
 
 - Create a persistent volume:
 
@@ -60,7 +60,7 @@ This guide covers day-to-day administration tasks for OpenShift Container Platfo
 
 - Configure storage classes for different backends (NFS, Ceph, etc.)
 
-## Monitoring and Logging
+## 🔹 Monitoring and Logging
 
 - Check cluster status:
 
@@ -81,9 +81,9 @@ This guide covers day-to-day administration tasks for OpenShift Container Platfo
   oc adm top pods
   ```
 
-## Backup and Recovery
+## 🔹 Backup and Recovery
 
-### ETCD Backup
+### 📌 ETCD Backup
 
 1. Stop the cluster:
 
@@ -103,11 +103,11 @@ This guide covers day-to-day administration tasks for OpenShift Container Platfo
    oc adm etcd snapshot restore /path/to/backup.db
    ```
 
-### Application Backup
+### 📌 Application Backup
 
 Use OpenShift API for Data Protection (OADP) for application backups.
 
-## Updates and Upgrades
+## 🔹 Updates and Upgrades
 
 - Check available updates:
 
@@ -123,14 +123,14 @@ Use OpenShift API for Data Protection (OADP) for application backups.
 
 - Update channel management via ClusterVersion resource
 
-## Security
+## 🔹 Security
 
 - Configure security context constraints (SCCs)
 - Manage secrets and config maps
 - Set up network policies
 - Enable audit logging
 
-## Networking
+## 🔹 Networking
 
 - Configure ingress controllers
 - Set up load balancers

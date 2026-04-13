@@ -1,8 +1,8 @@
-# Single-Node OpenShift (SNO) Installation
+# ✨ Single-Node OpenShift (SNO) Installation
 
 Single-Node OpenShift (SNO) is a compact, all-in-one deployment of OpenShift that runs the control plane and worker components on a single node. It's ideal for edge computing, development environments, and resource-constrained deployments.
 
-## Key Features
+## 🔹 Key Features
 
 - All components on one node
 - Reduced resource requirements
@@ -10,7 +10,7 @@ Single-Node OpenShift (SNO) is a compact, all-in-one deployment of OpenShift tha
 - Automatic recovery capabilities
 - Support for disconnected environments
 
-## Prerequisites
+## 🔹 Prerequisites
 
 - Single RHEL 8.6+ or RHCOS server
 - Minimum: 8 CPU cores, 32 GB RAM, 200 GB storage
@@ -18,15 +18,15 @@ Single-Node OpenShift (SNO) is a compact, all-in-one deployment of OpenShift tha
 - Network connectivity
 - Red Hat subscription
 
-## Installation Methods
+## 🔹 Installation Methods
 
-### Method 1: Assisted Installer
+### 📌 Method 1: Assisted Installer
 
 1. Access Red Hat Hybrid Cloud Console
 2. Select "Single-node" cluster type
 3. Follow the guided installation
 
-### Method 2: Manual Installation
+### 📌 Method 2: Manual Installation
 
 1. Download OpenShift installer:
 
@@ -77,16 +77,16 @@ Single-Node OpenShift (SNO) is a compact, all-in-one deployment of OpenShift tha
    ./openshift-install wait-for install-complete --dir=.
    ```
 
-## Post-Installation Configuration
+## 🔹 Post-Installation Configuration
 
-### Access the Cluster
+### 📌 Access the Cluster
 
 ```bash
 export KUBECONFIG=auth/kubeconfig
 oc login -u kubeadmin -p <password>
 ```
 
-### Enable Workloads on Master
+### 📌 Enable Workloads on Master
 
 By default, workloads don't run on the master node. To enable:
 
@@ -94,17 +94,17 @@ By default, workloads don't run on the master node. To enable:
 oc patch schedulers.config.openshift.io/cluster --type merge --patch '{"spec":{"mastersSchedulable": true}}'
 ```
 
-### Configure Storage
+### 📌 Configure Storage
 
 Set up local storage or external storage solutions.
 
-### Network Configuration
+### 📌 Network Configuration
 
 Configure ingress and routes as needed.
 
-## Management and Operations
+## 🔹 Management and Operations
 
-### Monitoring
+### 📌 Monitoring
 
 SNO includes built-in monitoring. Access via:
 
@@ -112,7 +112,7 @@ SNO includes built-in monitoring. Access via:
 oc get routes -n openshift-monitoring
 ```
 
-### Updates
+### 📌 Updates
 
 SNO supports in-place updates:
 
@@ -120,13 +120,13 @@ SNO supports in-place updates:
 oc adm upgrade
 ```
 
-### Backup and Recovery
+### 📌 Backup and Recovery
 
 - ETCD is automatically backed up
 - Use OADP for application backups
 - Node recovery is automatic for most failures
 
-## Scaling
+## 🔹 Scaling
 
 While SNO runs on a single node, you can add worker nodes later:
 
@@ -138,69 +138,69 @@ While SNO runs on a single node, you can add worker nodes later:
 
 2. The cluster will automatically expand
 
-## Troubleshooting
+## 🔹 Troubleshooting
 
-### Common Issues
+### 📌 Common Issues
 
-#### High Resource Usage
+#### ✅ High Resource Usage
 
 - Monitor with `oc adm top nodes`
 - Check running pods: `oc get pods --all-namespaces`
 - Scale up resources if needed
 
-#### Network Issues
+#### ✅ Network Issues
 
 - Verify network configuration
 - Check DNS resolution
 - Validate firewall rules
 
-#### Storage Issues
+#### ✅ Storage Issues
 
 - Check available disk space
 - Verify storage class configuration
 - Monitor PVC status
 
-### Logs and Debugging
+### 📌 Logs and Debugging
 
 - View cluster logs: `oc logs -n openshift-cluster-version <pod>`
 - Check node logs: `journalctl -u kubelet`
 - Use `oc debug` for troubleshooting
 
-### Recovery
+### 📌 Recovery
 
 For severe issues, SNO can self-heal. If needed:
 
 1. Reboot the node
 2. The cluster will automatically recover
 
-## Use Cases
+## 🔹 Use Cases
 
-### Edge Computing
+### 📌 Edge Computing
 
 - Deploy at remote locations
 - Low power consumption
 - Autonomous operation
 
-### Development and Testing
+### 📌 Development and Testing
 
 - Quick setup for development
 - Isolated environments
 - Cost-effective testing
 
-### Production Workloads
+### 📌 Production Workloads
 
 - Small-scale applications
 - Proof-of-concept deployments
 - Resource-constrained environments
 
-## Limitations
+## 🔹 Limitations
 
 - No high availability (single point of failure)
 - Limited scalability
 - Reduced fault tolerance
 - Not suitable for large-scale production
 
-## Best Practices
+## 🔹 Best Practices
 
 - Use SSD storage for better performance
 - Configure monitoring and alerting
