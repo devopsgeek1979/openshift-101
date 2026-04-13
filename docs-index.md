@@ -16,6 +16,7 @@ Use it as the source of truth for active pages and to avoid duplicate content dr
 
 - `README.md`: Repository overview and navigation.
 - `docs-index.md`: Canonical list of active documentation pages.
+- `github-profile-modern-template.md`: Modern GitHub profile README template tailored for architect branding.
 
 ## 🔹 Observability Stack
 
