@@ -1,0 +1,168 @@
+# OpenShift Interview Bank — Answers (150 Questions)
+
+This document provides concise answers to `openshift-l3-interview-questions-150.md`.
+
+## Section A — Answers for Q1-Q50 (Beginner)
+
+- **Q1:** `kube-apiserver` exposes cluster API, `etcd` stores state, `scheduler` places pods, and `controller-manager` reconciles desired vs actual state.
+- **Q2:** Pod runs containers; ReplicaSet keeps pod count; Deployment manages rolling updates for stateless pods; StatefulSet provides stable identity/storage ordering for stateful apps.
+- **Q3:** `kubelet` registers node, starts/stops pods via CRI, reports node/pod status, and executes probes.
+- **Q4:** `CRI-O` is the container runtime implementing CRI, pulling images and running containers securely on nodes.
+- **Q5:** API validates object, persists to etcd, scheduler assigns node, kubelet pulls image/starts container, probes pass, pod becomes Ready.
+- **Q6:** RHCOS is default for OCP because immutable OS + MCO-controlled updates give consistency and supportability.
+- **Q7:** Cert validation, etcd consensus, token expiry, and distributed logs rely on accurate time; skew causes auth and control-plane instability.
+- **Q8:** Typical quick set: `uptime`, `top`, `free -h`, `df -h`, `iostat -x`, `vmstat 1`, `ss -tulpen`.
+- **Q9:** `systemctl` checks services, `journalctl` gives service logs/history, `dmesg` shows kernel/hardware/runtime errors.
+- **Q10:** SELinux enforces MAC isolation; disabling it weakens tenant/container boundaries and increases lateral movement risk.
+- **Q11:** cgroups enforce CPU/memory/io constraints; Kubernetes requests/limits are realized through cgroup quotas and limits.
+- **Q12:** Containers use pid/net/mnt/ipc/uts/user namespaces for process, network, filesystem, IPC, hostname, and user isolation.
+- **Q13:** API server is on `6443`; every control-plane and client operation depends on reachability and TLS trust to this port.
+- **Q14:** etcd client traffic is on `2379` (peer replication commonly `2380`), and disruption breaks state operations.
+- **Q15:** Commonly validate SSH `22`, kubelet `10250`, machine-config-server `22623` (bootstrap/control-plane path), and API `6443`.
+- **Q16:** Use `nc -vz <host> <port>`, `telnet`, or `curl -k https://<host>:<port>/healthz` plus firewall/security group checks.
+- **Q17:** Bootstrap/control-plane join fails, API endpoint unresolved, and installers/operators timeout.
+- **Q18:** CoreDNS resolves cluster service names; validate with `oc get pods -n openshift-dns` and in-pod `dig/nslookup`.
+- **Q19:** Top checks: image name/tag, pull secret auth, registry DNS/TLS reachability, network/proxy path, and registry rate limits.
+- **Q20:** ImagePullSecret stores registry credentials and is attached at service account/pod level for private image pulls.
+- **Q21:** `oc describe pod` shows events (image pull/probe/scheduling errors), conditions, and reason transitions.
+- **Q22:** CrashLoopBackOff is repeated start-fail cycles; compare container logs/app config with platform events/resources/probes.
+- **Q23:** Liveness restarts dead app, readiness controls traffic eligibility, startup delays liveness until app bootstrap completes.
+- **Q24:** Failing readiness removes healthy pods from service endpoints, causing partial/total outage despite running containers.
+- **Q25:** Service gives stable virtual IP/DNS and load-balances to backend endpoints selected by labels.
+- **Q26:** Route is OpenShift-native HTTP(S) exposure with router integration; Ingress is Kubernetes API abstraction.
+- **Q27:** Ingress controller/router terminates TLS (as configured), routes external traffic to in-cluster services.
+- **Q28:** HTTPS commonly on `443`; termination modes are edge, reencrypt, and passthrough.
+- **Q29:** No ready endpoints, wrong target port, failed backend probes, router issues, policy/firewall blocks, or TLS mismatch.
+- **Q30:** Check router deployment/pods/events/logs in `openshift-ingress`, plus route admission and endpoint health.
+- **Q31:** Namespace provides multitenancy boundaries for RBAC, quotas, policies, and lifecycle isolation.
+- **Q32:** Quota caps total usage, LimitRange sets default/min/max; mis-sizing blocks pod creation or causes runtime throttling.
+- **Q33:** SCC defines allowed security contexts; pods fail if requested UID/capabilities/host access violate SCC policy.
+- **Q34:** Non-privileged workloads generally use restricted SCC behavior: non-root, limited capabilities, confined host access.
+- **Q35:** `hostPath` bypasses isolation and can expose host data/kernel surface; use only tightly controlled exceptions.
+- **Q36:** Block for DB/latency-sensitive workloads; file for shared access patterns (RWX) and simpler multi-pod sharing.
+- **Q37:** PV is cluster storage resource, PVC is workload claim; controller binds matching capacity/access class.
+- **Q38:** Pending PVC usually means no matching StorageClass/capacity/access mode or CSI provisioning failure.
+- **Q39:** Mount/attach timeout, multi-attach conflict, permission denied, node publish failure, backend unreachable.
+- **Q40:** `oc describe node` conditions + metrics (`oc adm top nodes`) reveal pressure states and scheduling risk.
+- **Q41:** Pods get evicted, image pulls/builds fail, kubelet degrades, and node may become NotReady.
+- **Q42:** Start with kubelet and CRI-O journals, MCD logs, node events, kernel logs, and CNI/OVN pod logs.
+- **Q43:** Cluster operators report health; `Degraded=True` or prolonged `Progressing=True` needs immediate investigation.
+- **Q44:** It shows desired/current version and update progression, central for assessing upgrade state and blockers.
+- **Q45:** Expired/mismatched certs break TLS trust to API/ingress/oauth and can lock out automation/users.
+- **Q46:** Wrong ownership/mode on kubelet, CRI-O, CNI, cert, or kubeconfig files can prevent service startup.
+- **Q47:** Frequent mistakes: wrong baseDomain, bad pull secret, invalid SSH key, missing proxy/mirror settings, CIDR overlap.
+- **Q48:** IPI creates cloud infra automatically; missing IAM permissions block load balancers, DNS, instances, or storage creation.
+- **Q49:** Most common: DNS/certs, auth/permissions, image pulls, quota/resource pressure, storage binding, and probe misconfig.
+- **Q50:** Build checklist: scope impact, API/operators/nodes/pods/storage/network status, recent changes, logs, rollback options.
+
+## Section B — Answers for Q51-Q100 (Intermediate)
+
+- **Q51:** Machine API manages node lifecycle declaratively (create/replace/scale) via cloud providers; static nodes are manual lifecycle.
+- **Q52:** Scaling can fail from quota, subnet/IP exhaustion, invalid templates, bootstrap/ignition errors, or cloud API throttling.
+- **Q53:** Autoscaler adds nodes for unschedulable pods if constraints are satisfiable and a matching scalable machine pool exists.
+- **Q54:** Hard affinity/selector mismatch, missing tolerations, PVC constraints, PDB constraints, and resource requests too high.
+- **Q55:** Taints repel pods unless tolerated; missing tolerations silently keep pods Pending.
+- **Q56:** Overly strict affinity/selectors can create zero valid placement sets causing permanent scheduling failure.
+- **Q57:** PDB limits evictions; during upgrades/drains it can block disruption and stall maintenance.
+- **Q58:** Causes include PDB blocks, daemonset handling, local storage constraints, stuck finalizers, or API pressure.
+- **Q59:** Cordon, drain with policy awareness, verify replacement node Ready, uncordon, then repeat gradually.
+- **Q60:** Validate OS version, time sync, DNS, NTP, MTU, required ports, runtime health, and cloud metadata reachability.
+- **Q61:** MTU mismatch causes fragmentation/packet drops, seen as intermittent latency, timeouts, and connection resets.
+- **Q62:** Symptoms: pod network loss, DNS failures, node-to-node breaks; check OVN pods/logs, SB/NB DB health, and node annotations.
+- **Q63:** Validate API `6443`, kubelet `10250`, etcd `2379/2380` (control-plane), MCS `22623`, DNS `53`, ingress `80/443`.
+- **Q64:** Use test pods + `curl/nc` across namespaces and inspect applied policies/selectors/ports.
+- **Q65:** If DNS egress or metrics endpoints are denied, apps may fail indirectly while pods look healthy.
+- **Q66:** Compare policy intent vs live labels and run targeted connectivity tests from failing source pods.
+- **Q67:** etcd write/read latency backs API persistence/watch operations, increasing API response times.
+- **Q68:** Use etcd endpoint health/status alarms, member list, and compaction/defrag indicators.
+- **Q69:** High fsync duration, disk queue latency, slow commit times, and API tail latency spikes.
+- **Q70:** Clock skew breaks Raft timing assumptions, triggering elections and transient unavailability.
+- **Q71:** Control-plane cert failures block operator-to-API, router-to-backend trust, and client auth.
+- **Q72:** Rotate in controlled window, monitor operators/API/ingress, verify trust chains and endpoint health post-change.
+- **Q73:** Typically etcd, kube-apiserver, authentication, ingress, network, machine-config, and monitoring operators.
+- **Q74:** Auth operator degradation causes login/token issuance issues and can break OAuth-integrated workflows.
+- **Q75:** Common failures: bad bind creds, CA trust, DN filters, unreachable endpoint; keep local break-glass auth path.
+- **Q76:** Validate redirect URIs, route/cert trust, oauth client config, cookie domain, and clock skew.
+- **Q77:** Causes: registry route/cert issues, auth failure, storage backend unavailable, or image policy restrictions.
+- **Q78:** Restore storage path, verify registry operator health, recover PVC/backing store, and retry with integrity checks.
+- **Q79:** Pruner removes old images; wrong retention can delete still-needed layers and break pulls.
+- **Q80:** High disk pressure slows layer unpacking/log writes, causing build timeouts and runtime instability.
+- **Q81:** BuildConfig failure is image creation pipeline issue; deployment failure is runtime/scheduling/probe/config issue.
+- **Q82:** Inspect init container logs/events, image pulls, config/secret mounts, and dependency reachability.
+- **Q83:** Often readiness never passes, wrong maxUnavailable/surge settings, failing hooks, or blocked PDB.
+- **Q84:** Correlate readiness failures with DB/cache latency and tune probe thresholds/timeout/success criteria.
+- **Q85:** Memory spikes, JVM/native leaks, sidecar overhead, or node pressure can OOM despite average headroom.
+- **Q86:** Kernel overcommit allows allocations; cgroup hard limits still enforce kill when container exceeds limit.
+- **Q87:** CPU limits too low cause throttling; noisy neighbors and high context switching reduce effective throughput.
+- **Q88:** Low file/PID/process limits can crash apps under burst load; check `/proc` limits and node defaults.
+- **Q89:** Excessive tiny files/logs exhaust inodes before disk space, breaking writes and container startup.
+- **Q90:** Use node filesystem metrics + container log paths; rotate/compress/ship logs and enforce retention.
+- **Q91:** Failed MCO rollout leaves mixed node configs and can break cluster consistency/upgrade flow.
+- **Q92:** Check MCD logs, rendered config diff, reboot requirements, and failing OS/state drift conditions.
+- **Q93:** Investigate degraded operators, blocked drains, unavailable pools, and incompatible workload constraints.
+- **Q94:** Pre-check operator health, node capacity, PDB posture, cert validity, storage/network health, and backup readiness.
+- **Q95:** Mirror/cat source mismatch, missing images/signatures, trust bundle errors, or proxy/firewall constraints.
+- **Q96:** Validate API/registry/mirror egress via proxy, DNS resolution, and required control-plane/data ports.
+- **Q97:** Check CSI controller/node logs, attachment objects, node plugin registration, and backend credentials/network.
+- **Q98:** Ceph/NFS failures include network latency, MON quorum issues, permission mismatch, and backend saturation.
+- **Q99:** Build timeline from alerts, changes, events, logs, metrics, and remediation actions with exact timestamps.
+- **Q100:** Alert on API latency, etcd health, operator degraded, node pressure, PVC pending, route 5xx, and auth failures.
+
+## Section C — Answers for Q101-Q150 (Advanced L3)
+
+- **Q101:** Start blast-radius triage, restore API path, classify control-plane vs infra issue, stabilize, then recover workloads.
+- **Q102:** Test API endpoint locally on masters, compare LB health checks/targets, and verify DNS/LB listener paths.
+- **Q103:** Capture API server logs/audit with client source correlation; check TLS resets, LB idle timeouts, and etcd stalls.
+- **Q104:** Correlate apiserver request metrics with etcd fsync/commit latency and node/network RTT histograms.
+- **Q105:** Verify clock sync, network jitter, disk latency, quorum stability; remove unstable member only with quorum-safe plan.
+- **Q106:** Defrag for fragmentation, replace only faulty member, scale infra when sustained resource saturation is proven.
+- **Q107:** Key params include conntrack table, VM dirty ratios, TCP backlog, ephemeral port ranges, and filesystem tuning.
+- **Q108:** Benchmark in staging, change one knob at a time, track SLO impact, and keep rollback of sysctl profiles.
+- **Q109:** Causes: NIC offload bugs, MTU mismatch, conntrack overflow, IRQ imbalance, and kernel regressions.
+- **Q110:** Conntrack exhaustion causes random drops/timeouts; increase limits and reduce churn with keepalive/tuning.
+- **Q111:** Minimum core paths: API `6443`, etcd `2379/2380`, kubelet `10250`, MCS `22623`, DNS `53`, ingress `80/443`.
+- **Q112:** Validate hop-by-hop with synthetic probes from client->LB->router->service->pod and return path checks.
+- **Q113:** Check cert chain/SAN, backend TLS settings, route termination mode, and router cipher/SNI configuration.
+- **Q114:** Usually endpoints are not Ready/mis-targeted or backend port mismatch despite route admission success.
+- **Q115:** Align mesh mTLS policy, route passthrough/reencrypt mode, destination rules, and SNI hostnames.
+- **Q116:** Pre-provision green, warm caches, run health gates, atomic traffic switch, and pre-tested rollback command.
+- **Q117:** Use compatibility contracts, shadow traffic/read checks, consistency metrics, and controlled cutover windows.
+- **Q118:** Do additive schema first, deploy compatible app, dual-write/read-fallback, then remove legacy columns later.
+- **Q119:** Use error rate/latency/saturation SLOs with automated promotion/abort thresholds.
+- **Q120:** Trigger rollback on sustained 5xx spike, latency breach, failed critical checks, or business KPI regression.
+- **Q121:** Enforce Git as source of truth, reconcile frequently, and use documented break-glass with post-incident back-merge.
+- **Q122:** Common roots: bad repo creds, invalid manifests, CRD ordering, webhook blocks, RBAC denies, cluster drift.
+- **Q123:** Partition apps by project/cluster, scale repo-server/controller, and isolate high-churn app groups.
+- **Q124:** Use short-lived tokens, sealed/external secrets, signed commits/images, and strict RBAC/audit.
+- **Q125:** Generator failures from stale cluster secrets, label mismatches, API rate limits, or template errors.
+- **Q126:** Use least privilege by namespace/project and operation (read/sync/admin), with separate platform break-glass roles.
+- **Q127:** SCC/PSA/admission must be policy-aligned; conflicting controls create false denies or insecure exceptions.
+- **Q128:** Slow webhooks increase admission latency globally, delaying pod creation and rollout completion.
+- **Q129:** Define timeout/failure policy carefully; fail-close for security-critical, fail-open for availability-critical non-security paths.
+- **Q130:** Isolate workload, collect audit/network/auth logs, inspect tokens/secrets/RBAC and suspicious exec/network activity.
+- **Q131:** Keep API audit, auth, router, node, and change-management logs with immutable retention.
+- **Q132:** Export signed/hashed evidence to write-once storage with chain-of-custody metadata.
+- **Q133:** Analyze request storms, watch/list abuse, admission latency, etcd slowness, and optimize clients/controllers.
+- **Q134:** Use RED+USE metrics and dependency graph to pinpoint bottleneck domain before changing infra.
+- **Q135:** Kernel/runtime mismatch, cgroup driver incompatibility, seccomp/SELinux regressions, or filesystem bugs.
+- **Q136:** Pause rollout, select known-good rendered config, recover nodes pool-by-pool with strict canary.
+- **Q137:** Prioritize control-plane stability, rollback one worker pool at a time, maintain capacity and PDB compliance.
+- **Q138:** Activate DR runbook: shift traffic, recreate critical infra, restore state, and revalidate IAM/DNS/certs.
+- **Q139:** Use active-passive or active-active with replicated state, DNS/LB failover, and tested recovery automation.
+- **Q140:** Perform full restore drills with production-like data and measure real RTO/RPO, not just backup completion.
+- **Q141:** Backups fail restores due to version drift, missing secrets/keys, incomplete snapshots, or untested procedures.
+- **Q142:** Periodically restore snapshots in isolated environment and verify cluster object integrity and service functionality.
+- **Q143:** Correlate storage latency with pod/app timeouts, queue depth, and backend health; apply QoS/isolation fixes.
+- **Q144:** If CSI control plane unhealthy cluster-wide, suspect plugin/controller; if localized volumes, suspect backend path.
+- **Q145:** Early predictors: filesystem latency, inode trends, kernel errors, packet drops, conntrack near-max, and OOM trends.
+- **Q146:** Build predictive alerts from trend slopes and anomaly models, not only static thresholds.
+- **Q147:** Standardize RCA tags by domain, trigger, detection gap, and corrective class to improve repeat learning.
+- **Q148:** Convert top incidents to runbooks + automation with guarded actions, approvals, and observability feedback loops.
+- **Q149:** Measure maturity by SLO attainment, MTTR, change failure rate, automation coverage, and DR/security readiness.
+- **Q150:** First 30 min: stabilize API/auth/network, stop blast radius, gather evidence, execute proven rollback/recovery path.
+
+## Notes for Interviewers
+
+- Evaluate structure: detect, isolate, verify, remediate, prevent.
+- Prioritize candidates who explain **trade-offs**, not only commands.
+- For L3, expect clear reasoning around **risk, rollback, and automation**.
