@@ -2,6 +2,10 @@
 
 This project provides a comprehensive observability stack for OpenShift clusters, integrating Prometheus, Grafana, Loki, Alertmanager, and SLO dashboards to monitor, visualize, and alert on application and infrastructure metrics and logs.
 
+## Documentation Index
+
+- [Canonical Documentation Map](docs-index.md): Source-of-truth list of active pages and documentation ownership to avoid duplicate content drift
+
 ## Features
 
 - **Prometheus**: Metrics collection and alerting (via OpenShift Prometheus Operator)
