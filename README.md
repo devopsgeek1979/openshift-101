@@ -96,6 +96,7 @@ This repository includes comprehensive interview questions and scenarios for L3 
 - [L3 Interview Questions](openshift-l3-interview-questions.md): 30 scenario-based questions covering installation, administration, troubleshooting, GitOps, ArgoCD, and blue-green deployments
 - [L3 Interview Questions (150)](openshift-l3-interview-questions-150.md): 150 progressive questions from beginner to L3, including deep checks on OS internals, critical ports, and common failure root causes
 - [L3 Interview Answers (150)](openshift-l3-interview-answers-150.md): Concise, interview-ready answers mapped to all 150 questions
+- [L3 Interview Combined Q&A (150)](openshift-l3-interview-qa-150.md): Single category-wise file containing all 150 questions with mapped answers (beginner, intermediate, advanced L3)
 - [L3 Scenario Questions (60)](openshift-l3-scenario-questions-60.md): 60 additional scenario-based questions (50+ requested) spanning beginner to advanced L3 production incidents
 
 ## Infrastructure Automation
