@@ -207,10 +207,149 @@ For air-gapped environments:
 - Verify ignition configs
 - Ensure proper DNS resolution
 
-## Cleanup
+## Failure Scenarios and Troubleshooting
 
-To remove the cluster:
+### Scenario 1: Nodes Not Discovered
 
-```bash
-./openshift-install agent destroy cluster --dir=.
-```
+**Symptoms:**
+
+- Nodes don't appear in the cluster
+- Agent service fails to start
+
+**Possible Causes:**
+
+- Incorrect rendezvousIP
+- Network connectivity issues
+- Firewall blocking agent communication
+
+**Troubleshooting Steps:**
+
+1. Check agent logs:
+
+   ```bash
+   journalctl -u agent.service -f
+   ```
+
+2. Verify network configuration:
+
+   ```bash
+   nmcli connection show
+   ip route show
+   ```
+
+3. Test connectivity to rendezvous IP:
+
+   ```bash
+   ping <rendezvous-ip>
+   nc -zv <rendezvous-ip> 6443
+   ```
+
+**Resolution:**
+
+- Correct rendezvousIP in agent-config.yaml
+- Ensure all nodes can reach the bootstrap node
+- Check firewall rules
+
+### Scenario 2: Installation Hangs at Bootstrap
+
+**Symptoms:**
+
+- Bootstrap process doesn't complete
+- Nodes show "Installing" status indefinitely
+
+**Possible Causes:**
+
+- Insufficient resources
+- Network timeouts
+- Invalid configuration
+
+**Troubleshooting Steps:**
+
+1. Monitor installation progress:
+
+   ```bash
+   openshift-install agent wait-for bootstrap-complete --log-level debug --dir=.
+   ```
+
+2. Check resource usage:
+
+   ```bash
+   top
+   free -h
+   ```
+
+3. Validate agent config:
+
+   ```bash
+   cat agent-config.yaml
+   ```
+
+**Resolution:**
+
+- Increase node resources
+- Check network stability
+- Regenerate agent config
+
+### Scenario 3: Certificate Issues
+
+**Symptoms:**
+
+- API server certificate errors
+- Nodes fail authentication
+
+**Possible Causes:**
+
+- Clock synchronization issues
+- Invalid certificates
+- DNS problems
+
+**Troubleshooting Steps:**
+
+1. Check system time:
+
+   ```bash
+   timedatectl
+   ```
+
+2. Verify certificates:
+
+   ```bash
+   oc get secrets -n openshift-kube-apiserver
+   ```
+
+3. Test DNS resolution:
+
+   ```bash
+   nslookup api.cluster.example.com
+   ```
+
+**Resolution:**
+
+- Synchronize clocks with NTP
+- Regenerate cluster certificates
+- Fix DNS configuration
+
+### Common Troubleshooting Questions
+
+1. **Q: Agent service fails to start on nodes?**
+   A: Check ignition config and ensure proper disk partitioning.
+
+2. **Q: Nodes can't communicate with rendezvous IP?**
+   A: Verify network configuration and firewall rules.
+
+3. **Q: Installation fails with "no available nodes" error?**
+   A: Check agent-config.yaml for correct node specifications.
+
+4. **Q: Bootstrap node runs out of disk space?**
+   A: Ensure adequate storage for container images and logs.
+
+5. **Q: PXE boot fails on some nodes?**
+   A: Verify DHCP server configuration and PXE assets.
+
+## Best Practices for Agent-Based Troubleshooting
+
+- Validate agent-config.yaml before booting nodes
+- Monitor agent logs on all nodes during installation
+- Ensure consistent network configuration across nodes
+- Keep detailed records of hardware specifications
+- Test PXE boot process in staging environment

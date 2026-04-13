@@ -89,6 +89,12 @@ This repository also includes comprehensive guides for OpenShift Container Platf
 - [Administration Guide](openshift-on-premises/administration.md): Day-to-day cluster management tasks
 - [Troubleshooting Guide](openshift-on-premises/troubleshooting.md): Common issues and resolution steps
 
+## OpenShift L3 Administrator Interview Preparation
+
+This repository includes comprehensive interview questions and scenarios for L3 OpenShift administrators:
+
+- [L3 Interview Questions](openshift-l3-interview-questions.md): 20 scenario-based questions covering installation, administration, troubleshooting, and advanced topics
+
 ## Contributing
 
 1. Fork the repo
