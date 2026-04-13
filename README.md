@@ -64,6 +64,14 @@ See `runbooks/` for troubleshooting guides:
 
 - [Loki Logs Missing](runbooks/loki-logs-missing.md)
 
+## OpenShift On-Premises
+
+This repository also includes comprehensive guides for OpenShift Container Platform on-premises deployments:
+
+- [Installation Guide](openshift-on-premises/installation.md): Step-by-step installation procedures
+- [Administration Guide](openshift-on-premises/administration.md): Day-to-day cluster management tasks
+- [Troubleshooting Guide](openshift-on-premises/troubleshooting.md): Common issues and resolution steps
+
 ## Contributing
 
 1. Fork the repo
