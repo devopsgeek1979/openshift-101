@@ -98,6 +98,7 @@ This repository also includes comprehensive guides for OpenShift Container Platf
 This repository includes comprehensive interview questions and scenarios for L3 OpenShift administrators:
 
 - [L3 Interview Combined Q&A (150)](openshift-l3-interview-qa-150.md): Single category-wise file containing all 150 questions with mapped answers (beginner, intermediate, advanced L3)
+- [L3 Scenario Master Bank (1200)](openshift-l3-scenario-bank-1200.md): 1200 scenario-based L3 questions with detailed answer patterns, visual markers, and incident-response structure
 
 ## Infrastructure Automation
 

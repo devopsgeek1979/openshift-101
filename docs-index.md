@@ -38,6 +38,7 @@ Use it as the source of truth for active pages and to avoid duplicate content dr
 ## Interview Preparation (Canonical)
 
 - `openshift-l3-interview-qa-150.md`: Consolidated 150-question category-wise Q&A bank.
+- `openshift-l3-scenario-bank-1200.md`: 1200 scenario-based L3 questions with detailed answer patterns and incident-response flow.
 
 ## Canonical Content Rules
 
