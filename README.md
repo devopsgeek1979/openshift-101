@@ -119,6 +119,10 @@ This repository includes comprehensive guides for GitOps practices and advanced 
 
 - [OpenShift Blue-Green Deployment Strategies](openshift-blue-green-deployment.md): Comprehensive guide for implementing blue-green deployments on OpenShift, including manual and automated approaches, service mesh integration, and rollback strategies
 
+### CI/CD Integration
+
+- [OpenShift CI/CD Integration Guide](openshift-cicd-integration.md): Complete guide for integrating CI/CD tools (Tekton, Jenkins, GitHub Actions) with OpenShift, including DevSecOps practices and multi-cluster deployments
+
 ## Contributing
 
 1. Fork the repo
