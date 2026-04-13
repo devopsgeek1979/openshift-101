@@ -64,6 +64,23 @@ See `runbooks/` for troubleshooting guides:
 
 - [Loki Logs Missing](runbooks/loki-logs-missing.md)
 
+## OpenShift Installation Methods
+
+This repository includes comprehensive guides for various OpenShift installation methods:
+
+### Core Installation Methods
+
+- [User-Provisioned Infrastructure (UPI)](openshift-on-premises/installation.md) - Manual infrastructure setup
+- [Installer-Provisioned Infrastructure (IPI)](openshift-installation-methods/ipi-installation.md) - Automated cloud infrastructure
+- [Agent-Based Installation](openshift-installation-methods/agent-based-installation.md) - ISO-based installation
+- [Assisted Installer](openshift-on-premises/installation.md) - Web-based guided installation
+
+### Specialized Deployments
+
+- [Single-Node OpenShift (SNO)](openshift-installation-methods/single-node-openshift.md) - Compact single-node deployment
+- [MicroShift](openshift-installation-methods/microshift-installation.md) - Lightweight edge deployment
+- [Disconnected Installation](openshift-installation-methods/disconnected-installation.md) - Air-gapped environments
+
 ## OpenShift On-Premises
 
 This repository also includes comprehensive guides for OpenShift Container Platform on-premises deployments:
